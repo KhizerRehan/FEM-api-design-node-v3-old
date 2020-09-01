@@ -13,6 +13,14 @@ app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
+const log = (req, res, next) => {
+  console.log('Logging Middleware')
+  next()
+}
+
+// Use this middleware for complete application:
+app.use(log)
+
 // GET DATA:
 app.get('/', (req, res) => {
   console.log('Dashboard')
