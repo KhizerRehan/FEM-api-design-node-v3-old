@@ -2,6 +2,7 @@ import express from 'express'
 import { json, urlencoded } from 'body-parser'
 import morgan from 'morgan'
 import cors from 'cors'
+import todoRouter from './resources/todo/todo.router'
 
 export const app = express()
 
@@ -56,6 +57,11 @@ router2.get('/route2', (req, res) => {
 
 app.use('/api', router2)
 
+// =====================================
+// Lesson-2
+// Registering Routes:
+
+app.use('/api/todo', todoRouter)
 // =====================================
 
 // GET DATA:
