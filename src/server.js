@@ -1,38 +1,55 @@
 import express from 'express'
 import { json, urlencoded } from 'body-parser'
 import morgan from 'morgan'
-import config from './config'
 import cors from 'cors'
-import { signup, signin, protect } from './utils/auth'
-import { connect } from './utils/db'
-import userRouter from './resources/user/user.router'
-import itemRouter from './resources/item/item.router'
-import listRouter from './resources/list/list.router'
 
 export const app = express()
 
 app.disable('x-powered-by')
 
+// Middlewares:
 app.use(cors())
 app.use(json())
 app.use(urlencoded({ extended: true }))
 app.use(morgan('dev'))
 
-app.post('/signup', signup)
-app.post('/signin', signin)
+// GET DATA:
+app.get('/', (req, res) => {
+  console.log('Dashboard')
+  res.send({
+    message: 'Hello Dashboard',
+  })
+})
 
-app.use('/api', protect)
-app.use('/api/user', userRouter)
-app.use('/api/item', itemRouter)
-app.use('/api/list', listRouter)
+// POST DATA:
+app.post('/', (req, res) => {
+  console.log('Incoming Post Data', req.body)
+  res.send({
+    message: 'ok',
+    status: 201,
+  })
+})
+
+app.get('/data', (req, res) => {
+  res.send({
+    message: '/data route is targeted',
+  })
+})
+
+app.post('/data', (req, res) => {
+  console.log(req.body)
+  res.send({
+    message: 'ok',
+    status: 201,
+  })
+})
 
 export const start = async () => {
   try {
-    await connect()
-    app.listen(config.port, () => {
-      console.log(`REST API on http://localhost:${config.port}/api`)
+    app.listen(4000, () => {
+      console.log('Server is Listening in Port 4000')
     })
-  } catch (e) {
-    console.error(e)
+  } catch (error) {
+    console.error(error)
   }
 }
