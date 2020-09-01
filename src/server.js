@@ -21,6 +21,43 @@ const log = (req, res, next) => {
 // Use this middleware for complete application:
 app.use(log)
 
+// =====================================
+
+const router1 = express.Router()
+
+router1.get('/route1', (req, res) => {
+  res.send({
+    path: '/static route1 here',
+  })
+})
+
+router1.get('/route2', (req, res) => {
+  res.send({
+    path: '/static route2 here',
+  })
+})
+
+// Mounting SubRoute to MainRouter of Application:
+app.use('/static', router1)
+
+const router2 = express.Router()
+
+router2.get('/route1', (req, res) => {
+  res.send({
+    path: '/api route1 here',
+  })
+})
+
+router2.get('/route2', (req, res) => {
+  res.send({
+    path: '/api route2 here',
+  })
+})
+
+app.use('/api', router2)
+
+// =====================================
+
 // GET DATA:
 app.get('/', (req, res) => {
   console.log('Dashboard')
